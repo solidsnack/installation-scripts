@@ -1,13 +1,15 @@
 set -e
 
-echo "Updates packages. Asks for your password."
-sudo apt-get update -y
-
-echo "Installs packages. Give your password when asked."
-sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev nodejs -y
-
-echo "Installs ImageMagick for image processing"
-sudo apt-get install imagemagick --fix-missing -y
+echo "Installs new packages. Asks for your password."
+sudo bash <<SUDO
+  apt-get update -y
+  apt-get install -y build-essential bison openssl \
+                     libreadline6 libreadline6-dev \
+                     curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev \
+                     libsqlite3-0 libsqlite3-dev sqlite3 \
+                     libxml2-dev libxslt-dev autoconf libc6-dev nodejs gedit
+  apt-get install --fix-missing -y imagemagick
+SUDO
 
 echo "Installs RVM (Ruby Version Manager) for handling Ruby installation"
 curl -L get.rvm.io | bash -s stable
@@ -19,9 +21,6 @@ rvm use 1.9.3-p194 --default
 
 gem install bundler --no-rdoc --no-ri
 gem install rails --no-rdoc --no-ri
-
-echo "Installs text editor"
-sudo apt-get install gedit -y
 
 echo -e "\n- - - - - -\n"
 echo -e "Now we are going to print some information to check that everything is done:\n"
